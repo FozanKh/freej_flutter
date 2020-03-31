@@ -1,4 +1,4 @@
-# freej
+# FreejApp_Flutter
 
 A new Flutter application.
 
