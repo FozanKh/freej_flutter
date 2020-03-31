@@ -1,0 +1,32 @@
+name: freej
+description: A new Flutter application.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+  http: ^0.12.0+4
+  flutter_spinkit: ^4.1.2
+  beauty_textfield: ^0.0.1
+  progress_dialog: ^1.2.1
+  curved_navigation_bar: ^0.3.2
+  shared_preferences: ^0.5.6+3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  fonts:
+    - family: BalooDa2
+      fonts:
+        - asset: fonts/BalooDa2-Regular.ttf
