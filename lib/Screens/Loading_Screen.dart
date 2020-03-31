@@ -21,8 +21,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
     if (localData.containsKey('id')) {
       var id = await localData.get('id');
       Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen(id)));
-    } else
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+    }
+    Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
   }
 
   @override
