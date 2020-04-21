@@ -3,6 +3,9 @@ import 'package:freej/models/constances.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
+  final student;
+  ProfileScreen(this.student);
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
@@ -17,10 +20,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: k_DarkPurple,
+        backgroundColor: kDarkPurple,
         body: Column(
           children: <Widget>[
-            Text('Profile', style: k_LargeTextStyle),
+            Text('Profile', style: kLargeTextStyle),
             k_BasicButton(
                 onPressed: () async {
                   await logoutUser();

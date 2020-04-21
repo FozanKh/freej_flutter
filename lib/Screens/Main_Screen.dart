@@ -4,22 +4,41 @@ import 'package:freej/models/constances.dart';
 import 'package:freej/Screens/Announcement_Screen.dart';
 import 'package:freej/Screens/Profile_Screen.dart';
 import 'package:freej/Screens/Activities_Screen.dart';
+import 'package:freej/models/freej_lists.dart';
+import 'package:freej/models/student.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   static const route = 'MainScreen';
-  MainScreen(this.id);
   final id;
+  static int num = 0;
+  MainScreen({this.id}) {
+    print('MainSceen ID  = $id');
+    print(num++);
+  }
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
+  Student student;
+  List<Widget> screens = List();
+
   @override
   void initState() {
+    print("im at the initState Mainscreen");
+    getStudent();
+    screens
+        .addAll([AnnouncementScreen(student), ActivitiesScreen(student), ProfileScreen(student)]);
     currentScreen = screens[1];
+    Provider.of<FreejLists>(context, listen: false).getAnnouncements();
   }
 
-  final screens = [AnnouncementScreen(), ActivitiesScreen(), ProfileScreen()];
+  Future<void> getStudent() async {
+    student = Student(KFUPMID: widget.id);
+    await student.getStudentData();
+  }
+
   Widget currentScreen;
   @override
   Widget build(BuildContext context) {
@@ -27,11 +46,12 @@ class _MainScreenState extends State<MainScreen> {
       onWillPop: () {},
       child: SafeArea(
         child: Scaffold(
-            backgroundColor: k_DarkPurple,
+            backgroundColor: kDarkPurple,
             bottomNavigationBar: CurvedNavigationBar(
+              index: 1,
               animationDuration: Duration(milliseconds: 300),
               height: 60,
-              backgroundColor: k_DarkPurple,
+              backgroundColor: kDarkPurple,
               color: Colors.white,
               items: <Widget>[
                 Icon(Icons.all_out, size: 30),
@@ -39,6 +59,10 @@ class _MainScreenState extends State<MainScreen> {
                 Icon(Icons.settings, size: 30),
               ],
               onTap: (index) async {
+                //TODO : Make a better way to refresh the announcement
+                if (index == 0) {
+                  await Provider.of<FreejLists>(context, listen: false).getAnnouncements();
+                }
                 setState(() {
                   currentScreen = screens[index];
                 });

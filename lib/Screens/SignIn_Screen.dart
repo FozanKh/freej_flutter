@@ -10,29 +10,27 @@ import 'package:freej/Screens/Verify_Screen.dart';
 
 class SignInScreen extends StatefulWidget {
   static const route = 'SignInScreen';
-  static String id;
-  static String getId() => id;
-
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  String id = SignInScreen.getId();
+  String id;
   @override
   Widget build(BuildContext context) {
+    // WillPopScope is used to prevent disable back button
     return WillPopScope(
       onWillPop: () {},
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: k_DarkPurple,
+          backgroundColor: kDarkPurple,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
                 "Freej",
-                style: k_LargeTextStyle,
+                style: kLargeTextStyle,
               ),
               SizedBox(height: 200),
               k_PlaceHolder(BeautyTextfield(
@@ -50,17 +48,19 @@ class _SignInScreenState extends State<SignInScreen> {
               k_BasicButton(
                   text: 'SignIn',
                   onPressed: () async {
-                    SignInController sign = SignInController(id: id);
+                    print('button Pressed,SingIn');
                     if (id != null) {
-                      if (false) {
-//                      if (await sign.isSignedUp(ID: id)) {
+                      print('Id != null,SingIn');
+                      SignInController signInController = SignInController(id: id);
+                      if (await signInController.isSignedUp(ID: id)) {
                         var result = await Navigator.push(
                             context, MaterialPageRoute(builder: (context) => VerifyScreen(id: id)));
                         if (result)
                           Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => MainScreen(id)));
+                              context, MaterialPageRoute(builder: (context) => MainScreen(id: id)));
                       } else {
-                        showModalBottomSheet(
+                        print('User Not Found,SingIn');
+                        var signUpInfo = await showModalBottomSheet(
                           backgroundColor: Colors.transparent,
                           isScrollControlled: true,
                           context: context,
@@ -68,10 +68,21 @@ class _SignInScreenState extends State<SignInScreen> {
                             child: Container(
                               padding:
                                   EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                              child: SignUpScreen(),
+                              child: SignUpScreen(id),
                             ),
                           ),
                         );
+                        print('SingUp Info Taken,SingIn');
+                        print('SignUp info = $signUpInfo');
+                        bool signUpResult =
+                            await signInController.signUpStudent(signUpInfo: signUpInfo);
+                        print('Is student signedUp = $signUpResult');
+                        if (signUpResult)
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => MainScreen(id: id)));
+                        else {
+                          //TODO: mush show err dialog with the reason
+                        }
                       }
                     }
                   }),

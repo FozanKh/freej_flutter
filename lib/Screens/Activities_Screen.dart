@@ -1,17 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:freej/models/constances.dart';
+import 'package:freej/models/request_card.dart';
+import 'package:freej/models/freej_lists.dart';
+import 'package:freej/Screens/add_request_view.dart';
 
 class ActivitiesScreen extends StatefulWidget {
+  final student;
+  ActivitiesScreen(this.student);
+
   @override
   _ActivitiesScreenState createState() => _ActivitiesScreenState();
 }
 
 class _ActivitiesScreenState extends State<ActivitiesScreen> {
   @override
+  void initState() {}
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: k_DarkPurple,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.grey.shade800,
+          child: Icon(Icons.add),
+          onPressed: () {
+            showModalBottomSheet(
+              backgroundColor: Colors.transparent,
+              isScrollControlled: true,
+              context: context,
+              builder: (context) => SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: AddRequest(),
+                ),
+              ),
+            );
+          },
+        ),
+        backgroundColor: kDarkPurple,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -19,7 +45,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
               flex: 2,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Text('Activities', style: k_LargeTextStyle),
+                child: Text('Activities', style: kLargeTextStyle),
               ),
             ),
             Expanded(
@@ -30,15 +56,15 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
                   Expanded(
                       child: Text('Requests',
                           textAlign: TextAlign.center,
-                          style: k_LargeTextStyle.copyWith(fontSize: 20))),
+                          style: kLargeTextStyle.copyWith(fontSize: 20))),
                   Expanded(
                       child: Text('Services',
                           textAlign: TextAlign.center,
-                          style: k_LargeTextStyle.copyWith(fontSize: 20))),
+                          style: kLargeTextStyle.copyWith(fontSize: 20))),
                   Expanded(
                       child: Text('Maintenance',
                           textAlign: TextAlign.center,
-                          style: k_LargeTextStyle.copyWith(fontSize: 20))),
+                          style: kLargeTextStyle.copyWith(fontSize: 20))),
                 ],
               ),
             ),
@@ -49,16 +75,8 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
                 color: Colors.white,
                 child: ListView(
                   children: <Widget>[
-                    k_ActivityCard(),
-                    k_ActivityCard(),
-                    k_ActivityCard(),
-                    k_ActivityCard(),
-                    k_ActivityCard(),
-                    k_ActivityCard(),
-                    k_ActivityCard(),
-                    k_ActivityCard(),
-                    k_ActivityCard(),
-                    k_ActivityCard(),
+                    RequestCard(),
+                    RequestCard(),
                   ],
                 ),
               ),

@@ -44,18 +44,22 @@ class SignInController {
 
   Future<bool> signUpStudent(
       {BuildContext context,
-      @required String BNo,
-      @required String FName,
-      @required String LName,
-      @required String id}) async {
-    var params = {
-      'BNo': BNo,
-      'FName': FName,
-      'LName': LName,
-      'KFUPMID': id,
-      'Gender': 'M',
-      'Status': 'Unactivated'
-    };
+      Map<String, String> signUpInfo,
+      String BNo,
+      String FName,
+      String LName,
+      String id}) async {
+    var params = (signUpInfo != null)
+        ? signUpInfo
+        : {
+            'BNo': BNo,
+            'FName': FName,
+            'LName': LName,
+            'KFUPMID': id,
+            'Gender': 'M',
+            'Status': 'Unactivated'
+          };
+
     var result = await Navigator.push(
         context, MaterialPageRoute(builder: (context) => VerifyScreen(id: id)));
 

@@ -3,11 +3,11 @@ import 'package:beauty_textfield/beauty_textfield.dart';
 import 'package:freej/models/constances.dart';
 import 'package:freej/NetworkManagement/SignIn_Controller.dart';
 import 'Main_Screen.dart';
-import 'SignIn_Screen.dart';
 
 class SignUpScreen extends StatelessWidget {
   static const route = 'SignUpScreen';
-  String id = SignInScreen.getId();
+  SignUpScreen(this.id);
+  final String id;
   String FName;
   String LName;
   String BNo;
@@ -16,7 +16,7 @@ class SignUpScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        color: k_InactiveCardColour,
+        color: kInactiveCardColour,
       ),
       padding: EdgeInsets.only(top: 50, bottom: 20),
       child: Column(
@@ -25,11 +25,11 @@ class SignUpScreen extends StatelessWidget {
         children: <Widget>[
           Text(
             "Please Sign Up",
-            style: k_LargeTextStyle.copyWith(fontSize: 30),
+            style: kLargeTextStyle.copyWith(fontSize: 30),
           ),
           Text(
             "Enter Your Information",
-            style: k_LargeTextStyle.copyWith(fontSize: 30),
+            style: kLargeTextStyle.copyWith(fontSize: 30),
           ),
           SizedBox(height: 100),
           k_PlaceHolder(BeautyTextfield(
@@ -38,7 +38,7 @@ class SignUpScreen extends StatelessWidget {
             margin: EdgeInsets.all(0),
             height: 50,
             width: MediaQuery.of(context).size.width,
-            prefixIcon: Icon(Icons.perm_identity),
+            prefixIcon: Icon(Icons.person),
             inputType: TextInputType.text,
             onChanged: (value) {
               FName = value;
@@ -50,10 +50,11 @@ class SignUpScreen extends StatelessWidget {
             margin: EdgeInsets.all(0),
             height: 50,
             width: MediaQuery.of(context).size.width,
-            prefixIcon: Icon(Icons.perm_identity),
+            prefixIcon: Icon(Icons.person_outline),
             inputType: TextInputType.text,
             onChanged: (value) {
               LName = value;
+              print(LName);
             },
           )),
           k_PlaceHolder(BeautyTextfield(
@@ -62,7 +63,7 @@ class SignUpScreen extends StatelessWidget {
             margin: EdgeInsets.all(0),
             height: 50,
             width: MediaQuery.of(context).size.width,
-            prefixIcon: Icon(Icons.perm_identity),
+            prefixIcon: Icon(Icons.business),
             inputType: TextInputType.number,
             onChanged: (value) {
               BNo = value;
@@ -72,10 +73,26 @@ class SignUpScreen extends StatelessWidget {
           k_BasicButton(
               text: 'SignUp',
               onPressed: () async {
-                var result = await SignInController()
-                    .signUpStudent(BNo: BNo, FName: FName, LName: LName, id: id, context: context);
-                if (result)
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MainScreen(id)));
+                print('SignUp Button Pressed');
+                //TODO: Verify the inputted values
+                print('SignUp Info = ${{
+                  'BNo': BNo,
+                  'FName': FName,
+                  'LName': LName,
+                  'id': id
+                }}, SingUp Screen');
+
+                Navigator.pop(context, {
+                  'BNo': BNo,
+                  'FName': FName,
+                  'LName': LName,
+                  'KFUPMID': id,
+                  'Gender': 'M',
+                  'Status': 'Unactivated'
+                });
+//                var result = await SignInController()
+//                    .signUpStudent(BNo: BNo, FName: FName, LName: LName, id: id, context: context);
+//                Navigator.pop(context, result);
               }),
         ],
       ),

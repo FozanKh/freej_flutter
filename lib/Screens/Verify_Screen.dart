@@ -9,33 +9,40 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyScreen extends StatefulWidget {
   static const route = 'VerifyScreen';
-
-  VerifyScreen({@required this.id = null});
   final id;
+  VerifyScreen({@required this.id}) {
+    print('Passed ID = ${this.id}, Verfy Screen');
+  }
+
   @override
   _VerifyScreenState createState() => _VerifyScreenState();
 }
 
 class _VerifyScreenState extends State<VerifyScreen> {
-  String inputOTP;
-  String otp;
+  String inputtedOTP;
+  String sentOTP;
 
   @override
   void initState() {
-    otp = Random().nextInt(9999).toString();
-    print(otp);
-    SignInController().verifySignUp(id: widget.id, otp: otp);
+    sentOTP = Random().nextInt(9999).toString();
+    while (sentOTP.length < 4) sentOTP = '0$sentOTP';
+    print(sentOTP);
+    SignInController().verifySignUp(id: widget.id, otp: sentOTP);
+  }
+
+  Future<void> setUserStatus() async {
+    SharedPreferences localData = await SharedPreferences.getInstance();
+    print('ID = ${widget.id}, VerfyScreen');
+    print('setting localdata operation = ${await localData.setString('id', widget.id)}, '
+        'VerfyScreen');
+    print('setting the localdata value = ${await localData.get('id')}, VerfyScreen');
   }
 
   Widget build(BuildContext context) {
-    Future<void> setUserStatus(id) async {
-      SharedPreferences localData = await SharedPreferences.getInstance();
-      await localData.setString('id', widget.id);
-    }
-
+    print('VerfyScreen Id = ${widget.id}');
     return SafeArea(
       child: Scaffold(
-        backgroundColor: k_DarkPurple,
+        backgroundColor: kDarkPurple,
         body: Padding(
           padding: const EdgeInsets.only(bottom: 100),
           child: Center(
@@ -61,15 +68,16 @@ class _VerifyScreenState extends State<VerifyScreen> {
                 prefixIcon: Icon(Icons.sms),
                 inputType: TextInputType.number,
                 onChanged: (value) {
-                  inputOTP = value;
+                  inputtedOTP = value;
                 },
               )),
               k_BasicButton(
                   text: 'SignIn',
                   onPressed: () async {
-                    if (inputOTP != null && inputOTP.length == 4) {
-                      if (inputOTP == otp) {
-                        await setUserStatus(widget.id);
+                    print(sentOTP);
+                    if (inputtedOTP != null && inputtedOTP.length == 4) {
+                      if (inputtedOTP == sentOTP) {
+                        await setUserStatus();
                         Navigator.pop(context, true);
                       } else {
                         showDialog(
@@ -77,7 +85,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
                             builder: (BuildContext context) {
                               return Dialog(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0)), //this right here
+                                  borderRadius: BorderRadius.circular(20.0),
+                                ), //this right here
                                 child: Container(
                                   height: 200,
                                   child: Padding(
@@ -103,7 +112,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
                                 ),
                               );
                             });
-//                      Navigator.pop(context, false);
                       }
                     }
                   }),

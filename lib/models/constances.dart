@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-const k_DarkPurple = Color(0xFF0A0E21);
-const k_DarkPurplelight = Color(0x550A0E21);
-const k_ActiveCardColour = Color(0xFF1D1E33);
-const k_InactiveCardColour = Color(0xFF111328);
-const k_LargeTextStyle = TextStyle(
+const kDarkPurple = Color(0xFF0A0E21);
+const kDarkPurplelight = Color(0x550A0E21);
+const kActiveCardColour = Color(0xFF1D1E33);
+const kInactiveCardColour = Color(0xFF111328);
+const kLargeTextStyle = TextStyle(
   fontSize: 50,
   color: Colors.white70,
   fontFamily: 'BalooDa2',
 );
 
-const InputDecoration k_SignUpTFDecoration = InputDecoration(
+const InputDecoration kSignUpTFDecoration = InputDecoration(
   counter: Offstage(),
   filled: true,
   hintText: 'Enter KFUPM ID',
@@ -79,6 +79,7 @@ class k_BackgroundContainer extends StatefulWidget {
   final child;
   final color;
   k_BackgroundContainer({this.child, this.color});
+
   @override
   _k_BackgroundContainerState createState() => _k_BackgroundContainerState();
 }
@@ -87,7 +88,7 @@ class _k_BackgroundContainerState extends State<k_BackgroundContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: EdgeInsets.only(bottom: 20, left: 10, right: 10),
       padding: EdgeInsets.fromLTRB(10, 25, 10, 10),
       decoration: BoxDecoration(
         color: widget.color,
@@ -99,48 +100,6 @@ class _k_BackgroundContainerState extends State<k_BackgroundContainer> {
         ),
       ),
       child: widget.child,
-    );
-  }
-}
-
-class k_ActivityCard extends StatefulWidget {
-  @override
-  _k_ActivityCardState createState() => _k_ActivityCardState();
-}
-
-class _k_ActivityCardState extends State<k_ActivityCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-      padding: EdgeInsets.all(10),
-      height: 120,
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: Colors.grey[800],
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Icon(
-            Icons.print,
-            size: 60,
-          ),
-          Expanded(
-            child: Container(
-              margin: EdgeInsets.only(left: 10),
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.grey[600],
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-              child: Text('Fozan'
-                  '\nI need a colored printer!!!!! Now '),
-            ),
-          )
-        ],
-      ),
     );
   }
 }
