@@ -102,4 +102,4 @@ class AddAnnouncement extends StatelessWidget {
       ),
     );
   }
-
+}
