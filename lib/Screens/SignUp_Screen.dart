@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:beauty_textfield/beauty_textfield.dart';
 import 'package:freej/models/constances.dart';
-import 'package:freej/NetworkManagement/SignIn_Controller.dart';
-import 'Main_Screen.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   static const route = 'SignUpScreen';
   SignUpScreen(this.id);
   final String id;
+
+  @override
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
   String FName;
+
   String LName;
+
   String BNo;
+
+  Map<String, String> result = {};
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,67 +40,79 @@ class SignUpScreen extends StatelessWidget {
             style: kLargeTextStyle.copyWith(fontSize: 30),
           ),
           SizedBox(height: 100),
-          k_PlaceHolder(BeautyTextfield(
-            placeholder: 'First Name',
-            cornerRadius: BorderRadius.all(Radius.circular(20)),
-            margin: EdgeInsets.all(0),
-            height: 50,
-            width: MediaQuery.of(context).size.width,
-            prefixIcon: Icon(Icons.person),
-            inputType: TextInputType.text,
-            onChanged: (value) {
-              FName = value;
-            },
-          )),
-          k_PlaceHolder(BeautyTextfield(
-            placeholder: 'Last Name',
-            cornerRadius: BorderRadius.all(Radius.circular(20)),
-            margin: EdgeInsets.all(0),
-            height: 50,
-            width: MediaQuery.of(context).size.width,
-            prefixIcon: Icon(Icons.person_outline),
-            inputType: TextInputType.text,
-            onChanged: (value) {
-              LName = value;
-              print(LName);
-            },
-          )),
-          k_PlaceHolder(BeautyTextfield(
-            placeholder: 'Building Number',
-            cornerRadius: BorderRadius.all(Radius.circular(20)),
-            margin: EdgeInsets.all(0),
-            height: 50,
-            width: MediaQuery.of(context).size.width,
-            prefixIcon: Icon(Icons.business),
-            inputType: TextInputType.number,
-            onChanged: (value) {
-              BNo = value;
-            },
-          )),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 50),
+            height: 70,
+            width: 330,
+            child: TextField(
+              decoration: InputDecoration(
+                filled: true,
+                labelText: "First Name",
+                fillColor: Colors.white12,
+                border: OutlineInputBorder(
+                  gapPadding: 5,
+                  borderSide: BorderSide(),
+                ),
+              ),
+              onChanged: (value) {
+                FName = value;
+              },
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 50),
+            height: 70,
+            width: 330,
+            child: TextField(
+              decoration: InputDecoration(
+                filled: true,
+                labelText: "Last Name",
+                fillColor: Colors.white12,
+                border: OutlineInputBorder(
+                  gapPadding: 5,
+                  borderSide: BorderSide(color: Colors.purple, style: BorderStyle.solid),
+                ),
+              ),
+              onChanged: (value) {
+                LName = value;
+              },
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 50),
+            height: 70,
+            width: 330,
+            child: TextField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                filled: true,
+                labelText: "Building Number",
+                fillColor: Colors.white12,
+                border: OutlineInputBorder(
+                  gapPadding: 5,
+                  borderSide: BorderSide(color: Colors.purple, style: BorderStyle.solid),
+                ),
+              ),
+              onChanged: (value) {
+                BNo = value;
+              },
+            ),
+          ),
           SizedBox(height: 20),
-          k_BasicButton(
+          kBasicButton(
               text: 'SignUp',
               onPressed: () async {
-                print('SignUp Button Pressed');
-                //TODO: Verify the inputted values
-                print('SignUp Info = ${{
-                  'BNo': BNo,
-                  'FName': FName,
-                  'LName': LName,
-                  'id': id
-                }}, SingUp Screen');
-
-                Navigator.pop(context, {
-                  'BNo': BNo,
-                  'FName': FName,
-                  'LName': LName,
-                  'KFUPMID': id,
-                  'Gender': 'M',
-                  'Status': 'Unactivated'
-                });
-//                var result = await SignInController()
-//                    .signUpStudent(BNo: BNo, FName: FName, LName: LName, id: id, context: context);
-//                Navigator.pop(context, result);
+                if (FName != null && LName != null) {
+                  result.addAll({
+                    'BNo': BNo,
+                    'FName': FName,
+                    'LName': LName,
+                    'KFUPMID': widget.id,
+                    'Gender': 'M',
+                    'Status': 'Unactivated'
+                  });
+                  Navigator.pop(context, result);
+                }
               }),
         ],
       ),

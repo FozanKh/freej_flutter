@@ -11,11 +11,7 @@ import 'package:provider/provider.dart';
 class MainScreen extends StatefulWidget {
   static const route = 'MainScreen';
   final id;
-  static int num = 0;
-  MainScreen({this.id}) {
-    print('MainSceen ID  = $id');
-    print(num++);
-  }
+  MainScreen({this.id});
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -26,7 +22,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   void initState() {
-    print("im at the initState Mainscreen");
     getStudent();
     screens
         .addAll([AnnouncementScreen(student), ActivitiesScreen(student), ProfileScreen(student)]);
@@ -59,10 +54,12 @@ class _MainScreenState extends State<MainScreen> {
                 Icon(Icons.settings, size: 30),
               ],
               onTap: (index) async {
-                //TODO : Make a better way to refresh the announcement
-                if (index == 0) {
+                //TODO : Make a better way to refresh the Lists
+                if (index == 0)
                   await Provider.of<FreejLists>(context, listen: false).getAnnouncements();
-                }
+                else if (index == 1)
+                  await Provider.of<FreejLists>(context, listen: false).getActivities(student);
+
                 setState(() {
                   currentScreen = screens[index];
                 });

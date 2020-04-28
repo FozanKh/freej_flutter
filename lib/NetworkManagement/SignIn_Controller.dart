@@ -79,7 +79,7 @@ class SignInController {
   Future<bool> verifySignUp({@required String id, @required String otp}) async {
     String email = '$id@kfupm.edu.sa';
 
-    if (await sendOTP(email: email, otp: otp)) {
+    if (true /*await sendOTP(email: email, otp: otp)*/) {
       print("code Sent");
       return true;
     } else

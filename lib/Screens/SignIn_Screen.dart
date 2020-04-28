@@ -33,7 +33,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 style: kLargeTextStyle,
               ),
               SizedBox(height: 200),
-              k_PlaceHolder(BeautyTextfield(
+              kPlaceHolder(BeautyTextfield(
                 placeholder: 'Enter KFUPM ID',
                 cornerRadius: BorderRadius.all(Radius.circular(20)),
                 margin: EdgeInsets.all(0),
@@ -45,7 +45,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   id = value;
                 },
               )),
-              k_BasicButton(
+              kBasicButton(
                   text: 'SignIn',
                   onPressed: () async {
                     print('button Pressed,SingIn');
@@ -72,11 +72,11 @@ class _SignInScreenState extends State<SignInScreen> {
                             ),
                           ),
                         );
-                        print('SingUp Info Taken,SingIn');
-                        print('SignUp info = $signUpInfo');
-                        bool signUpResult =
-                            await signInController.signUpStudent(signUpInfo: signUpInfo);
-                        print('Is student signedUp = $signUpResult');
+                        bool signUpResult;
+                        if (signUpInfo != null) {
+                          signUpResult = await signInController.signUpStudent(
+                              signUpInfo: signUpInfo, context: context);
+                        }
                         if (signUpResult)
                           Navigator.push(
                               context, MaterialPageRoute(builder: (context) => MainScreen(id: id)));

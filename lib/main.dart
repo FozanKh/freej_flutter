@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => FreejLists(),
       child: MaterialApp(
+//        theme: ThemeData.dark().copyWith(accentColor: Colors.white),
         theme: ThemeData(fontFamily: 'BalooDa2'),
         debugShowCheckedModeBanner: true,
         color: Colors.deepPurple,

@@ -5,7 +5,6 @@ import 'package:freej/Screens/SignIn_Screen.dart';
 import 'package:freej/models/constances.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 import 'package:freej/models/freej_lists.dart';
 
 class LoadingScreen extends StatefulWidget {

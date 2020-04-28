@@ -1,11 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+const deleteActivityURL = 'http://freejapp.com/FreejAppRequest/DeleteActivity.php';
 
 class FreejTile extends StatelessWidget {
   final title;
   final description;
   final id;
+  final deletable;
+  Widget tileIcon;
 
-  FreejTile({this.title, this.description, this.id});
+  FreejTile({this.title, this.description, this.id, this.deletable = false}) {
+    if (deletable) {
+      tileIcon = Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.surround_sound,
+            size: 60,
+          ),
+          GestureDetector(
+            onLongPress: () async {
+              http.Response response = await http.post(deleteActivityURL, body: {'AcID': id});
+              if (response.statusCode == 201) print('Activity Deleted');
+            },
+            child: Text(
+              'Delete',
+              style: TextStyle(fontSize: 10, color: Colors.red),
+            ),
+          )
+        ],
+      );
+    } else
+      tileIcon = Icon(
+        Icons.surround_sound,
+        size: 60,
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +52,7 @@ class FreejTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Icon(
-            Icons.print,
-            size: 60,
-          ),
+          tileIcon,
           Expanded(
             child: Container(
               margin: EdgeInsets.only(left: 10),

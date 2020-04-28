@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:freej/models/constances.dart';
 import 'package:freej/models/request_card.dart';
 import 'package:freej/models/freej_lists.dart';
-import 'package:freej/Screens/add_request_view.dart';
+import 'package:freej/Screens/add_activity_view.dart';
+import 'package:provider/provider.dart';
 
 class ActivitiesScreen extends StatefulWidget {
   final student;
@@ -14,7 +15,15 @@ class ActivitiesScreen extends StatefulWidget {
 
 class _ActivitiesScreenState extends State<ActivitiesScreen> {
   @override
-  void initState() {}
+  void initState() {
+    getActivity();
+  }
+
+  Future<void> getActivity() async {
+    await Future.delayed(Duration(milliseconds: 1500));
+    Provider.of<FreejLists>(context, listen: false).getActivities(widget.student);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +40,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
               builder: (context) => SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: AddRequest(),
+                  child: AddActivity(widget.student.UserID),
                 ),
               ),
             );
@@ -71,14 +80,10 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
             Expanded(
               flex: 15,
 //              child: GestureDetector(
-              child: k_BackgroundContainer(
+              child: kBackgroundContainer(
+                position: 'top',
                 color: Colors.white,
-                child: ListView(
-                  children: <Widget>[
-                    RequestCard(),
-                    RequestCard(),
-                  ],
-                ),
+                child: ListView(children: Provider.of<FreejLists>(context).activities),
               ),
             ),
 //            )

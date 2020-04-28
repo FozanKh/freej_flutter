@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freej/Screens/Main_Screen.dart';
+import 'package:freej/Screens/add_announcement_view.dart';
 import 'package:freej/models/constances.dart';
 import 'package:freej/models/freej_lists.dart';
 import 'package:freej/models/freej_tile.dart';
@@ -25,7 +26,17 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
     if (widget.student.isAmeen)
       ameenBtn = FloatingActionButton(
         onPressed: () {
-          print('ammenAddingAnnouncement');
+          showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            isScrollControlled: true,
+            context: context,
+            builder: (context) => SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: AddAnnouncement(widget.student.UserID),
+              ),
+            ),
+          );
         },
         backgroundColor: Colors.grey.shade800,
         child: Icon(Icons.add),
@@ -54,7 +65,8 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
               ),
               Expanded(
                 flex: 15,
-                child: k_BackgroundContainer(
+                child: kBackgroundContainer(
+                  position: 'top',
                   color: Colors.white,
                   child: ListView(
                     children: announcementList.announcements,

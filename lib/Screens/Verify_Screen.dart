@@ -59,7 +59,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
               SizedBox.fromSize(
                 size: Size.fromHeight(20),
               ),
-              k_PlaceHolder(BeautyTextfield(
+              kPlaceHolder(BeautyTextfield(
                 placeholder: '****',
                 cornerRadius: BorderRadius.all(Radius.circular(20)),
                 margin: EdgeInsets.all(0),
@@ -71,7 +71,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                   inputtedOTP = value;
                 },
               )),
-              k_BasicButton(
+              kBasicButton(
                   text: 'SignIn',
                   onPressed: () async {
                     print(sentOTP);
@@ -100,7 +100,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
                                           'Invalid verificatoin code',
                                           style: TextStyle(fontSize: 18),
                                         )),
-                                        k_BasicButton(
+                                        kBasicButton(
                                             text: 'try again',
                                             size: 'small',
                                             onPressed: () {
