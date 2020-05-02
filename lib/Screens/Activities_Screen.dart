@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:freej/models/constances.dart';
-import 'package:freej/models/request_card.dart';
 import 'package:freej/models/freej_lists.dart';
 import 'package:freej/Screens/add_activity_view.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +20,6 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
 
   Future<void> getActivity() async {
     await Future.delayed(Duration(milliseconds: 1500));
-    Provider.of<FreejLists>(context, listen: false).getActivities(widget.student);
     setState(() {});
   }
 

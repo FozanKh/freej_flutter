@@ -52,10 +52,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: kSettingTextStyle,
                       ),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditProfile(widget.student.KFUPMID)));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => EditProfile(widget.student)));
                       },
                     ),
                     FlatButton(
@@ -68,8 +66,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (await assureDialog()) {
                           http.Response response = await http
                               .post(DeleteStudentURL, body: {'KFUPMID': widget.student.UserID});
-                          await logoutUser();
-                          Navigator.pop(context, 'MainScreenLogOut');
+                          if (response.statusCode == 201) {
+                            await logoutUser();
+                            Navigator.pop(context, 'MainScreenLogOut');
+                          }
                         }
                       },
                     ),
@@ -148,7 +148,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<bool> assureDialog() async {
-    bool answer;
     return showDialog(
         context: context,
         builder: (BuildContext context) {

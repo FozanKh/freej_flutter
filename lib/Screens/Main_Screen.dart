@@ -26,12 +26,14 @@ class _MainScreenState extends State<MainScreen> {
     screens
         .addAll([AnnouncementScreen(student), ActivitiesScreen(student), ProfileScreen(student)]);
     currentScreen = screens[1];
-    Provider.of<FreejLists>(context, listen: false).getAnnouncements();
+//    Provider.of<FreejLists>(context, listen: false).getAnnouncements();
   }
 
   Future<void> getStudent() async {
     student = Student(KFUPMID: widget.id);
     await student.getStudentData();
+    Provider.of<FreejLists>(context, listen: false).student = student;
+    Provider.of<FreejLists>(context, listen: false).getSessionData();
   }
 
   Widget currentScreen;
