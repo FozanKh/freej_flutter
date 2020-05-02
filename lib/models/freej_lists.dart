@@ -77,7 +77,7 @@ class FreejLists extends ChangeNotifier {
 
 //--------------------------------------------------------------------------------------------------
 
-  Future<void> getAnnouncements() async {
+  Future<void> refreshAnnouncement() async {
     http.Response response = await http.post(getAnnouncementURL);
     var data = jsonDecode(response.body);
     List<FreejTile> tempList = [];
@@ -88,7 +88,6 @@ class FreejLists extends ChangeNotifier {
           id: announcement['AnID']));
     }
     announcements = (tempList);
-    notifyListeners();
   }
 
   addAnnouncement(String title, String description, String id) {
@@ -98,7 +97,8 @@ class FreejLists extends ChangeNotifier {
 
 //--------------------------------------------------------------------------------------------------
 
-  Future<void> getActivities(student) async {
+  Future<void> refreshActivities() async {
+    //TODO: Replace GetSessionURL with getActivitiesURL
     http.Response response =
         await http.post(GetSessionDataURL, body: {'BNo': student.BNo, 'UserID': student.UserID});
     if (response.statusCode == 201) {
@@ -116,7 +116,6 @@ class FreejLists extends ChangeNotifier {
         print('ActivityListUpdated');
       }
       activities = temp;
-      notifyListeners();
     }
   }
 

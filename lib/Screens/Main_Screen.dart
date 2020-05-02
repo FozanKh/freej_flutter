@@ -57,14 +57,8 @@ class _MainScreenState extends State<MainScreen> {
               ],
               onTap: (index) async {
                 //TODO : Make a better way to refresh the Lists
-                if (index == 0)
-                  await Provider.of<FreejLists>(context, listen: false).getAnnouncements();
-                else if (index == 1)
-                  await Provider.of<FreejLists>(context, listen: false).getActivities(student);
-
-                setState(() {
-                  currentScreen = screens[index];
-                });
+                currentScreen = screens[index];
+                setState(() {});
                 //Handle button tap
               },
             ),

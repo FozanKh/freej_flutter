@@ -23,69 +23,82 @@ class _ActivitiesScreenState extends State<ActivitiesScreen> {
     setState(() {});
   }
 
+  Future<void> refreshActivities() async {
+    await Provider.of<FreejLists>(context, listen: false).refreshActivities();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.grey.shade800,
-          child: Icon(Icons.add),
-          onPressed: () {
-            showModalBottomSheet(
-              backgroundColor: Colors.transparent,
-              isScrollControlled: true,
-              context: context,
-              builder: (context) => SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                  child: AddActivity(widget.student.UserID),
+    return Consumer<FreejLists>(
+      builder: (context, Freej, child) => SafeArea(
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Colors.grey.shade800,
+            child: Icon(Icons.add),
+            onPressed: () {
+              showModalBottomSheet(
+                backgroundColor: Colors.transparent,
+                isScrollControlled: true,
+                context: context,
+                builder: (context) => SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: AddActivity(widget.student.UserID),
+                  ),
+                ),
+              );
+            },
+          ),
+          backgroundColor: kDarkPurple,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Text('Activities', style: kLargeTextStyle),
                 ),
               ),
-            );
-          },
-        ),
-        backgroundColor: kDarkPurple,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Text('Activities', style: kLargeTextStyle),
+              Expanded(
+                flex: 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Expanded(
+                        child: Text('Requests',
+                            textAlign: TextAlign.center,
+                            style: kLargeTextStyle.copyWith(fontSize: 20))),
+                    Expanded(
+                        child: Text('Services',
+                            textAlign: TextAlign.center,
+                            style: kLargeTextStyle.copyWith(fontSize: 20))),
+                    Expanded(
+                        child: Text('Maintenance',
+                            textAlign: TextAlign.center,
+                            style: kLargeTextStyle.copyWith(fontSize: 20))),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Expanded(
-                      child: Text('Requests',
-                          textAlign: TextAlign.center,
-                          style: kLargeTextStyle.copyWith(fontSize: 20))),
-                  Expanded(
-                      child: Text('Services',
-                          textAlign: TextAlign.center,
-                          style: kLargeTextStyle.copyWith(fontSize: 20))),
-                  Expanded(
-                      child: Text('Maintenance',
-                          textAlign: TextAlign.center,
-                          style: kLargeTextStyle.copyWith(fontSize: 20))),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 15,
+              Expanded(
+                flex: 15,
 //              child: GestureDetector(
-              child: kBackgroundContainer(
-                position: 'top',
-                color: Colors.white,
-                child: ListView(children: Provider.of<FreejLists>(context).activities),
+                child: kBackgroundContainer(
+                  position: 'top',
+                  color: Colors.white,
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      await refreshActivities();
+                      print('Announcement refreshed');
+                    },
+                    child: ListView(children: Freej.activities),
+                  ),
+                ),
               ),
-            ),
 //            )
-          ],
+            ],
+          ),
         ),
       ),
     );

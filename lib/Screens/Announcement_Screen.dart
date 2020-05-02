@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:freej/Screens/Main_Screen.dart';
 import 'package:freej/Screens/add_announcement_view.dart';
 import 'package:freej/models/constances.dart';
 import 'package:freej/models/freej_lists.dart';
-import 'package:freej/models/freej_tile.dart';
 import 'package:provider/provider.dart';
 
 class AnnouncementScreen extends StatefulWidget {
@@ -46,10 +44,15 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
     setState(() {});
   }
 
+  Future<void> refreshAnnouncements() async {
+    await Provider.of<FreejLists>(context, listen: false).refreshAnnouncement();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<FreejLists>(
-      builder: (context, announcementList, child) => SafeArea(
+      builder: (context, Freej, child) => SafeArea(
         child: Scaffold(
           floatingActionButton: ameenBtn,
           backgroundColor: kDarkPurple,
@@ -68,8 +71,14 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
                 child: kBackgroundContainer(
                   position: 'top',
                   color: Colors.white,
-                  child: ListView(
-                    children: announcementList.announcements,
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      await refreshAnnouncements();
+                      print('Announcement refreshed');
+                    },
+                    child: ListView(
+                      children: Freej.announcements,
+                    ),
                   ),
                 ),
               ),
