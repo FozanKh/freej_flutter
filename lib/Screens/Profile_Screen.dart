@@ -99,11 +99,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: kSettingTextStyle,
                       ),
                       onPressed: () async {
-                        String link = Provider.of<FreejLists>(context).groupURL;
-                        if (link != null)
+                        String link = Provider.of<FreejLists>(context, listen: false).groupURL;
+                        if (link != null) {
                           Clipboard.setData(ClipboardData(text: link));
-                        else
+                          print('Group Link : $link, is copied to the clipboard!');
+                        } else {
+                          print('there is no group Link for this building!');
                           Clipboard.setData(ClipboardData(text: 'No Link'));
+                        }
                       },
                     ),
                   ],

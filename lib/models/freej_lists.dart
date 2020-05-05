@@ -64,9 +64,8 @@ class FreejLists extends ChangeNotifier {
       announcements = tempList;
 
       //groupURL
-      groupURL = data['groupURL'];
+      groupURL = data['GroupURL'][0].toString();
       print('GroupLinkUpdated');
-      print(data['groupURL']);
 
       //Buildings
       for (var BNo in data['Building']) {
