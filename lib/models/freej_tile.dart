@@ -8,34 +8,68 @@ class FreejTile extends StatelessWidget {
   final description;
   final id;
   final deletable;
-  Widget tileIcon;
+  final acTID;
+  final anTID;
+  List<Widget> tileLead;
+  IconData tileIcon = Icons.surround_sound;
+  String reqType;
 
-  FreejTile({this.title, this.description, this.id, this.deletable = false}) {
-    if (deletable) {
-      tileIcon = Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(
-            Icons.surround_sound,
-            size: 60,
-          ),
-          GestureDetector(
-            onLongPress: () async {
-              http.Response response = await http.post(deleteActivityURL, body: {'AcID': id});
-              if (response.statusCode == 201) print('Activity Deleted');
-            },
-            child: Text(
-              'Delete',
-              style: TextStyle(fontSize: 10, color: Colors.red),
-            ),
-          )
-        ],
+  FreejTile(
+      {this.title,
+      this.description,
+      this.id,
+      this.deletable = false,
+      this.acTID = null,
+      this.anTID = null}) {
+    tileLead = [];
+    if (acTID != null) {
+      switch (acTID) {
+        case '0':
+          reqType = 'Request';
+          tileIcon = Icons.add_box;
+          break;
+        case '1':
+          reqType = 'Service';
+          tileIcon = Icons.beenhere;
+          break;
+        case '2':
+          reqType = 'Maintenance';
+          tileIcon = Icons.settings;
+          break;
+        case '3':
+          reqType = 'Entertainment';
+          tileIcon = Icons.videogame_asset;
+          break;
+        default:
+          reqType = 'Actvity';
+          tileIcon = Icons.add_circle_outline;
+      }
+
+      tileLead.add(
+        Text(
+          reqType,
+          style: TextStyle(fontSize: 12, color: Colors.black),
+        ),
       );
-    } else
-      tileIcon = Icon(
-        Icons.surround_sound,
+    }
+    tileLead.add(
+      Icon(
+        tileIcon,
         size: 60,
-      );
+      ),
+    );
+    if (deletable) {
+      tileLead.add(GestureDetector(
+        onLongPress: () async {
+          http.Response response = await http.post(deleteActivityURL, body: {'AcID': id});
+          if (response.statusCode == 201) print('Activity Deleted');
+        },
+        child: Text(
+          'Delete',
+          style: TextStyle(fontSize: 10, color: Colors.red),
+        ),
+      ));
+    }
   }
 
   @override
@@ -52,7 +86,10 @@ class FreejTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          tileIcon,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: tileLead,
+          ),
           Expanded(
             child: Container(
               margin: EdgeInsets.only(left: 10),
@@ -62,9 +99,24 @@ class FreejTile extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(title),
-                  Expanded(child: SingleChildScrollView(child: Text(description))),
+                  Text(
+                    title,
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Divider(
+                    indent: MediaQuery.of(context).size.width / 20,
+                    endIndent: MediaQuery.of(context).size.width / 20,
+                    height: 1,
+                    color: Colors.grey.shade300,
+                  ),
+                  Expanded(
+                      child: SingleChildScrollView(
+                          child: Text(
+                    description,
+                    textAlign: TextAlign.center,
+                  ))),
                 ],
               ),
             ),

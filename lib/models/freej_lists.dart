@@ -45,6 +45,7 @@ class FreejLists extends ChangeNotifier {
             title: activity['Title'],
             description: activity['Descrp'],
             id: activity['AcID'],
+            acTID: activity['AcTID'],
           ),
         );
       }
@@ -104,10 +105,14 @@ class FreejLists extends ChangeNotifier {
     var data = jsonDecode(response.body);
     List<FreejTile> tempList = [];
     for (var announcement in data) {
-      tempList.add(FreejTile(
+      tempList.add(
+        FreejTile(
           title: announcement['Title'],
           description: announcement['Descrp'],
-          id: announcement['AnID']));
+          id: announcement['AnID'],
+          anTID: announcement['AnTID'],
+        ),
+      );
     }
     announcements = (tempList);
     notifyListeners();
@@ -147,6 +152,7 @@ class FreejLists extends ChangeNotifier {
             title: activity['Title'],
             description: activity['Descrp'],
             id: activity['AcID'],
+            acTID: activity['AcTID'],
           ),
         );
         print('ActivityListUpdated');
@@ -168,6 +174,7 @@ class FreejLists extends ChangeNotifier {
             title: activity['Title'],
             description: activity['Descrp'],
             id: activity['AcID'],
+            acTID: activity['AcTID'],
             deletable: true));
       }
       studentActivities = temp;

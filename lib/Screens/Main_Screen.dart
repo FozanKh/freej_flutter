@@ -57,8 +57,10 @@ class _MainScreenState extends State<MainScreen> {
               ],
               onTap: (index) async {
                 //TODO : Make a better way to refresh the Lists
-                currentScreen = screens[index];
-                setState(() {});
+
+                setState(() {
+                  currentScreen = screens[index];
+                });
                 //Handle button tap
               },
             ),

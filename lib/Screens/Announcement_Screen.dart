@@ -41,7 +41,6 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       );
     else
       ameenBtn = null;
-    setState(() {});
   }
 
   Future<void> refreshAnnouncements() async {
